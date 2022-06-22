@@ -7,7 +7,7 @@ import java.awt.event.ActionListener;
 import java.awt.*;
 
 public class Main extends JFrame implements ActionListener {
-  JLabel lName, lValue, lBrand, lEquipment,lPayment;
+  JLabel lName, lValue, lBrand, lEquipment, lPayment;
   JTextField tfName, tfValue, tfBrand;
   JRadioButton rbAvista, rbParcelado;
   JButton bSalvar, bDeletar, bLimpar, bSair;
@@ -36,11 +36,11 @@ public class Main extends JFrame implements ActionListener {
     miSobre.addActionListener(this);
     mAjuda = new JMenu("Ajuda");
     mAjuda.add(miSobre);
-    
+
     mbBarra = new JMenuBar();
     mbBarra.add(mAjuda);
     setJMenuBar(mbBarra);
-    
+
     lName = new JLabel("Nome:");
     add(lName);
 
@@ -64,24 +64,22 @@ public class Main extends JFrame implements ActionListener {
 
     lEquipment = new JLabel("Equipamento:");
     add(lEquipment);
-    
+
     cbEquipamento = new JComboBox<String>(equipamento);
     add(cbEquipamento);
 
-    
     lPayment = new JLabel("Forma de Pagamento:");
-        add(lPayment);
+    add(lPayment);
 
-        rbAvista = new JRadioButton("À vista");
-        add(rbAvista);
-        rbParcelado = new JRadioButton("Parcelado");
-        add(rbParcelado);
-    
-        buttonGroup = new ButtonGroup();
-        buttonGroup.add(rbAvista);
-        buttonGroup.add(rbParcelado);
+    rbAvista = new JRadioButton("À vista");
+    add(rbAvista);
+    rbParcelado = new JRadioButton("Parcelado");
+    add(rbParcelado);
 
-  
+    buttonGroup = new ButtonGroup();
+    buttonGroup.add(rbAvista);
+    buttonGroup.add(rbParcelado);
+
     bSalvar = new JButton("Salvar");
     bSalvar.addActionListener(this);
     add(bSalvar);
@@ -98,7 +96,6 @@ public class Main extends JFrame implements ActionListener {
     bSair.addActionListener(this);
     add(bSair);
 
-    
     dtModel = new DefaultTableModel();
     dtModel.addColumn("NOME");
     dtModel.addColumn("VALOR");
@@ -108,18 +105,18 @@ public class Main extends JFrame implements ActionListener {
 
     tabela = new JTable(dtModel) {
       @Override
-      public boolean isCellEditable(int rowIndex, int vColIndex) { 
+      public boolean isCellEditable(int rowIndex, int vColIndex) {
         return false;
       }
     };
 
     var dimension = new Dimension(700, 400);
-    tabela.setPreferredScrollableViewportSize(dimension); 
+    tabela.setPreferredScrollableViewportSize(dimension);
     barraRolagem = new JScrollPane(tabela);
 
     add(barraRolagem);
     barraRolagem.setVerticalScrollBarPolicy(
-                        JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
   }
 
   public static void main(String[] args) {
@@ -141,42 +138,41 @@ public class Main extends JFrame implements ActionListener {
     boolean tfMarcaPreenchido = tfMarcaText.length() > 0;
     boolean cbSelecionado = cbEquipamentoIndexSelecionado > 0;
     boolean rbSelecionado = rbAvista.isSelected() || rbParcelado.isSelected();
-    boolean camposPrenchidos = tfNomePreenchido && tfValorPreenchido && tfMarcaPreenchido &&cbSelecionado && rbSelecionado;
 
-    if (source == miSobre){
-        JOptionPane.showMessageDialog(null, "Loja de Informática\nFeita por Felipe Holanda, Lucas Frazão e Thiago Figueredo");
+    if (source == miSobre) {
+      JOptionPane.showMessageDialog(null,
+          "Loja de Informática\nFeita por Felipe Holanda, Lucas Frazão e Thiago Figueredo");
     }
-    
+
     if (source == bSalvar) {
-         if(camposPrenchidos){
-                String rbSelecinados = "";
-                if(rbAvista.isSelected()){
-                    rbSelecinados = "À vista";
-                }else if(rbParcelado.isSelected()){
-                    rbSelecinados = "Parcelado";
-                } 
-        
-        if (camposPrenchidos) {
+      if (!rbSelecionado) {
+        JOptionPane.showMessageDialog(null, "Selecione método de pagamento");
+
+      } else if (!tfNomePreenchido) {
+        JOptionPane.showMessageDialog(null, "Nome não Preenchido");
+
+      } else if (!tfValorPreenchido) {
+        JOptionPane.showMessageDialog(null, "Valor não Preenchido");
+
+      } else if (!tfMarcaPreenchido) {
+        JOptionPane.showMessageDialog(null, "Marca não Preenchida");
+
+      } else if (!cbSelecionado) {
+        JOptionPane.showMessageDialog(null, "Selecione o equipamento");
+      } else {
+        String rbSelecinados = "";
+
+        if (rbAvista.isSelected()) {
+          rbSelecinados = "À vista";
+        } else if (rbParcelado.isSelected()) {
+          rbSelecinados = "Parcelado";
+        }
+
         String equipamentoSelecionado = equipamento[cbEquipamentoIndexSelecionado];
-        Object[] dados = { tfNomeText, tfValorText, tfMarcaText, equipamentoSelecionado,rbSelecinados };
+        Object[] dados = { tfNomeText, tfValorText, tfMarcaText, equipamentoSelecionado, rbSelecinados };
 
         dtModel.addRow(dados);
         clearFields();
-      } 
-    }else if(!rbSelecionado) {
-        JOptionPane.showMessageDialog(null, "Selecione método de pagamento");
-        
-      }else if(!tfNomePreenchido) {
-        JOptionPane.showMessageDialog(null, "Nome não Preenchido");
-      
-      }else if(!tfValorPreenchido) {
-        JOptionPane.showMessageDialog(null, "Valor não Preenchido");
-        
-        }else if(!tfMarcaPreenchido) {
-        JOptionPane.showMessageDialog(null, "Marca não Preenchida");
-        
-      }else if(!cbSelecionado){
-        JOptionPane.showMessageDialog(null, "Selecione o equipamento");
       }
     }
 
@@ -198,13 +194,13 @@ public class Main extends JFrame implements ActionListener {
       System.exit(0);
     }
   }
-  
+
   public void clearFields() {
     tfName.setText("");
     tfValue.setText("");
     tfBrand.setText("");
     tfName.requestFocus();
-   cbEquipamento.setSelectedIndex(0);
-     buttonGroup.clearSelection();
+    cbEquipamento.setSelectedIndex(0);
+    buttonGroup.clearSelection();
   }
 }
