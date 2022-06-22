@@ -5,10 +5,10 @@
 ## Objetivo
 
     ```Objetivo do trabalho:```
-    ```- Nem o professor soube explicar o que quer, quem dirá eu!```
+    ```- Loja De Informática```
 
 ## Integrantes:
 
-    ```Lucas Frasão```
+    ```Lucas Frazão```
     ```Thiago Figueiredo```
-    ```Felipe Holanda``` 
+    ```Felipe Holanda```
